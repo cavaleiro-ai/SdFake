@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navy">#0F172A</color>
+    <color name="page">#F1F5F9</color>
+    <color name="card">#FFFFFF</color>
+    <color name="ink">#1E293B</color>
+    <color name="muted">#475569</color>
+    <color name="header_muted">#94A3B8</color>
+    <color name="line">#CBD5E1</color>
+    <color name="blue">#2563EB</color>
+    <color name="blue_pressed">#1D4ED8</color>
+    <color name="ok_bg">#DCFCE7</color>
+    <color name="ok_fg">#166534</color>
+    <color name="bad_bg">#FEE2E2</color>
+    <color name="bad_fg">#991B1B</color>
+    <color name="warn_bg">#FEF3C7</color>
+    <color name="warn_fg">#92400E</color>
+    <color name="neutral_bg">#E2E8F0</color>
+</resources>

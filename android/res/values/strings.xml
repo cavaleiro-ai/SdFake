@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SdFake</string>
+    <string name="subtitle">Detector de cartão SD e pendrive falso</string>
+
+    <!-- boas-vindas e enderecos do desenvolvedor (os mesmos do programa de PC, em pc/src/WelcomeForm.cs) -->
+    <string name="welcome_title">Bem-vindo ao SdFake!</string>
+    <string name="welcome_text">Obrigado por usar o SdFake. Em poucos minutos você descobre se o seu cartão SD ou pendrive tem mesmo a capacidade que está escrita nele.</string>
+    <string name="follow_title">Gostou? Siga o desenvolvedor e acompanhe as novidades:</string>
+    <string name="follow_instagram">Instagram  ·  @cavaleiro.ai</string>
+    <string name="follow_tiktok">TikTok  ·  @cavaleiro.ai</string>
+    <string name="follow_site">Site  ·  www.cavaleiro.ai</string>
+    <string name="welcome_start">Começar</string>
+    <string name="url_instagram" translatable="false">https://www.instagram.com/cavaleiro.ai/</string>
+    <string name="url_tiktok" translatable="false">https://www.tiktok.com/@cavaleiro.ai</string>
+    <string name="url_site" translatable="false">https://www.cavaleiro.ai</string>
+
+    <string name="choose_title">Escolha o cartão ou pendrive</string>
+    <string name="choose_text">O teste grava arquivos em todo o espaço livre e confere se voltam iguais. Seus arquivos não são apagados.</string>
+    <string name="none_found">Nenhum cartão SD apareceu automaticamente. Se você conectou um pendrive ou leitor pelo cabo USB (OTG), use o botão abaixo.</string>
+    <string name="pick">Escolher manualmente (pendrive USB)</string>
+    <string name="picker_help">Na tela seguinte o Android pede para escolher uma pasta do cartão. Se aparecer \"Não é possível usar esta pasta\", toque em CRIAR NOVA PASTA, dê qualquer nome (ex.: teste) e depois toque em USAR ESTA PASTA e PERMITIR.</string>
+    <string name="picker_hint">Crie uma pasta no cartão e toque em USAR ESTA PASTA</string>
+
+    <string name="confirm_text">O teste vai gravar arquivos em todo o espaço livre e depois conferir tudo.\n\n•  Seus arquivos não são apagados; os arquivos de teste são removidos no final.\n•  Cartão falso costuma ser desmascarado em poucos minutos.\n•  Cartão verdadeiro e grande pode levar horas. Deixe o celular carregando.\n•  Não remova o cartão durante o teste.</string>
+
+    <string name="running_note">Não remova o cartão. Você pode apagar a tela ou usar outros apps: o teste continua e avisa por notificação quando terminar.</string>
+    <string name="cancel">Cancelar teste</string>
+    <string name="again">Testar outro dispositivo</string>
+
+    <string name="how_title">Como funciona</string>
+    <string name="how_text">Cartões e pendrives falsos dizem ao aparelho que têm, por exemplo, 128 GB, mas só guardam uma fração disso: o que passa do limite é descartado ou gravado por cima do que já estava lá.\n\nO SdFake enche o espaço livre com dados únicos e lê tudo de volta. Se o que voltar for diferente do que foi gravado, o cartão é falso ou está com defeito, e o app mostra quanto espaço existe de verdade.\n\nNo fim, compare o tamanho que o app mostra com o que está escrito no cartão. Um cartão vendido como 128 GB que aparece com poucas centenas de MB é falso, mesmo que esse pouco funcione.\n\nQuanto mais vazio o cartão estiver, mais completa é a conferência.</string>
+</resources>
