@@ -1,5 +1,10 @@
 # Histórico de versões
 
+## 1.0.1 — 14/11/2026
+
+- Botão **Seguir @cavaleiro.ai** no topo, ao lado do título, no programa de PC e no app Android.
+  Abre um menu com Instagram, TikTok e site.
+
 ## 1.0.0 — 14/11/2026
 
 Primeira versão pública.

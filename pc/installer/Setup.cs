@@ -49,7 +49,7 @@ namespace SdFakeSetup
 
     static class Installer
     {
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.1";
         const string RegKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\SdFake";
 
         public static void Install(Paths p, bool desktopShortcut)

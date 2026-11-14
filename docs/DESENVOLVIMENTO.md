@@ -127,7 +127,8 @@ powershell -ExecutionPolicy Bypass -File tools\prints.ps1
 Gera os arquivos `docs\telas\pc-*.png` em cerca de 1 minuto. O script compila
 `tools\prints\Prints.cs` junto com o código do programa, abre as janelas reais e roda os motores
 reais contra cartões **simulados**. Só a lista de dispositivos é trocada por um cartão de exemplo;
-nenhum disco é lido ou gravado. Os números do cartão falso são os de um caso real (anuncia
+nenhum disco é lido ou gravado. O print `pc-seguir.png` (menu do botão Seguir aberto) é uma captura
+da tela, então deixe a janela do programa visível enquanto o script roda. Os números do cartão falso são os de um caso real (anuncia
 133,3 GB, guarda 252 MB).
 
 Os prints `android-*.png` são capturas do app no emulador (`python tools/emu/ui.py shot arquivo.png`).
@@ -150,15 +151,18 @@ Os ícones do programa e do app são desenhados por `tools\make-icons.ps1`.
 | `tools` | Gerador de ícones, gerador de prints, teste da janela e utilitários do emulador |
 | `docs` | Documentação e prints |
 
-## Trocar os endereços da tela de boas-vindas
+## Trocar os endereços do desenvolvedor
+
+Os mesmos endereços aparecem na tela de boas-vindas e no botão **Seguir** do topo.
 
 - PC: classe `Developer` em `pc/src/WelcomeForm.cs`.
 - Android: `follow_*` e `url_*` em `android/res/values/strings.xml`.
 
 ## Publicar uma versão
 
-1. Atualize a versão em `pc/src/AssemblyInfo.cs`, `pc/installer/AssemblyInfo.cs` e
-   `android/build_apk.py` (`VERSION_NAME` e `VERSION_CODE`, que precisa aumentar a cada versão).
+1. Atualize a versão em `pc/src/AssemblyInfo.cs`, `pc/installer/AssemblyInfo.cs`,
+   `pc/installer/Setup.cs` (constante `Version`) e `android/build_apk.py` (`VERSION_NAME` e
+   `VERSION_CODE`, que precisa aumentar a cada versão).
 2. Anote as mudanças em `CHANGELOG.md`.
 3. Compile os dois lados com os autotestes.
 4. Publique os três arquivos de `Instaladores\`:

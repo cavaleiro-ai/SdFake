@@ -91,6 +91,51 @@ namespace SdFake
             Console.WriteLine("  " + name);
         }
 
+        /// <summary>
+        /// Clica no botao "Seguir" do cabecalho e fotografa a janela com o menu aberto. O menu e uma janela
+        /// a parte, entao aqui a captura e da tela (so o retangulo da janela, mantida na frente das outras).
+        /// </summary>
+        static void FollowMenu(DriveEntry d, string name)
+        {
+            MainForm f = Open(d);
+            f.TopMost = true;
+            f.Activate();
+            Pump(400);
+            Button follow = null;
+            foreach (Control c in f.Controls)
+                if (c is Header && c.Controls.Count > 0) follow = c.Controls[0] as Button;
+            if (follow == null) throw new Exception("botão Seguir não encontrado no cabeçalho");
+            follow.PerformClick();
+            Pump(600);
+            if (!AnyMenuOpen()) throw new Exception("o menu do botão Seguir não abriu");
+            RECT r;
+            GetWindowRect(f.Handle, out r);
+            using (Bitmap bmp = new Bitmap(r.R - r.L, r.B - r.T))
+            {
+                using (Graphics g = Graphics.FromImage(bmp)) g.CopyFromScreen(r.L, r.T, 0, 0, bmp.Size);
+                bmp.Save(Path.Combine(outDir, name), ImageFormat.Png);
+            }
+            Console.WriteLine("  " + name);
+            f.Close();
+        }
+
+        static bool AnyMenuOpen()
+        {
+            // ContextMenuStrip nao entra em Application.OpenForms: procura a janela de menu visivel desta thread
+            bool found = false;
+            EnumThreadWindows(GetCurrentThreadId(), delegate(IntPtr h, IntPtr l)
+            {
+                Control c = Control.FromHandle(h);
+                if (c is ToolStripDropDown && c.Visible) { found = true; return false; }
+                return true;
+            }, IntPtr.Zero);
+            return found;
+        }
+
+        delegate bool EnumProc(IntPtr h, IntPtr l);
+        [DllImport("user32.dll")] static extern bool EnumThreadWindows(uint thread, EnumProc proc, IntPtr l);
+        [DllImport("kernel32.dll")] static extern uint GetCurrentThreadId();
+
         static object Call(MainForm f, string method, params object[] args)
         {
             return typeof(MainForm).GetMethod(method, Any).Invoke(f, args);
@@ -204,6 +249,7 @@ namespace SdFake
                 MainForm start = Open(real64);
                 Shot(start, "pc-inicio.png");
                 start.Close();
+                FollowMenu(real64, "pc-seguir.png");
                 Quick(real64, new SimDevice { Declared = 63864569856L, Real = 63864569856L, Mode = SimMode.Genuine }, null, "pc-verdadeiro.png");
 
                 // cartao falso como chega do vendedor: formatado com os "128 GB" que anuncia

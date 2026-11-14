@@ -17,8 +17,8 @@ import zipfile
 from pathlib import Path
 
 APP_ID = "com.sdfake.app"
-VERSION_CODE = "1"
-VERSION_NAME = "1.0.0"
+VERSION_CODE = "2"
+VERSION_NAME = "1.0.1"
 MIN_SDK = "24"
 TARGET_SDK = "35"
 

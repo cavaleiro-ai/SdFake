@@ -17,10 +17,12 @@ import android.os.Looper;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 import android.provider.DocumentsContract;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +80,7 @@ public final class MainActivity extends Activity {
         cancelButton = findViewById(R.id.cancel);
 
         setupWelcome();
+        setupFollow();
 
         findViewById(R.id.pick).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,19 +130,44 @@ public final class MainActivity extends Activity {
         link(R.id.site, R.string.url_site);
     }
 
+    /** Botao "Seguir" no topo, ao lado do titulo: abre um menu com Instagram, TikTok e site. */
+    private void setupFollow() {
+        final int[] labels = {R.string.follow_instagram, R.string.follow_tiktok, R.string.follow_site};
+        final int[] urls = {R.string.url_instagram, R.string.url_tiktok, R.string.url_site};
+        findViewById(R.id.follow).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu menu = new PopupMenu(MainActivity.this, v);
+                for (int i = 0; i < labels.length; i++) menu.getMenu().add(0, i, i, labels[i]);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        open(urls[item.getItemId()]);
+                        return true;
+                    }
+                });
+                menu.show();
+            }
+        });
+    }
+
     /** Botao que abre um endereco no app correspondente (Instagram, TikTok) ou no navegador. */
     private void link(int buttonId, final int urlId) {
         findViewById(buttonId).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = getString(urlId);
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(MainActivity.this, url, Toast.LENGTH_LONG).show();
-                }
+                open(urlId);
             }
         });
+    }
+
+    private void open(int urlId) {
+        String url = getString(urlId);
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, url, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

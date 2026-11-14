@@ -92,6 +92,16 @@ O SdFake percebe a diferença entre o tamanho formatado e o que o dispositivo an
   <img src="telas/pc-nao-confirmado.png" width="480" alt="Resultado NÃO CONFIRMADO">
 </p>
 
+### Botão Seguir
+
+No topo da janela, ao lado do título, o botão **Seguir @cavaleiro.ai** abre um menu com o
+Instagram, o TikTok e o site do desenvolvedor. O mesmo botão existe no app Android.
+
+<p align="center">
+  <img src="telas/pc-seguir.png" width="440" alt="Botão Seguir com o menu aberto">
+  <img src="telas/android-seguir.png" width="200" alt="Botão Seguir no app Android">
+</p>
+
 ### HD e SSD externos
 
 Discos USB externos aparecem na lista, marcados como "disco USB externo". Eles nunca vêm
@@ -191,5 +201,5 @@ pendrive OTG.
 Não. Só Windows 10/11 e Android 7.0 ou mais novo.
 
 **O programa manda algum dado para a internet?**
-Não. Ele não se conecta a nada. Os botões da tela de boas-vindas apenas abrem o Instagram, o
-TikTok e o site no seu navegador, se você clicar.
+Não. Ele não se conecta a nada. Os botões da tela de boas-vindas e o botão Seguir apenas abrem o
+Instagram, o TikTok e o site no seu navegador, se você clicar.

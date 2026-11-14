@@ -11,6 +11,8 @@
     <string name="follow_tiktok">TikTok  ·  @cavaleiro.ai</string>
     <string name="follow_site">Site  ·  www.cavaleiro.ai</string>
     <string name="welcome_start">Começar</string>
+    <!-- botao no topo, ao lado do titulo: abre um menu com os tres enderecos acima -->
+    <string name="follow_button">Seguir @cavaleiro.ai</string>
     <string name="url_instagram" translatable="false">https://www.instagram.com/cavaleiro.ai/</string>
     <string name="url_tiktok" translatable="false">https://www.tiktok.com/@cavaleiro.ai</string>
     <string name="url_site" translatable="false">https://www.cavaleiro.ai</string>

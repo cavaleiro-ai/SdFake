@@ -14,6 +14,22 @@ namespace SdFake
         public const string TikTokUrl = "https://www.tiktok.com/@cavaleiro.ai";
         public const string SiteLabel = "www.cavaleiro.ai";
         public const string SiteUrl = "https://www.cavaleiro.ai";
+
+        /// <summary>Abre o endereco no navegador padrao.</summary>
+        public static void Open(IWin32Window owner, string url)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(url);
+                psi.UseShellExecute = true;
+                Process.Start(psi);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(owner, "Não foi possível abrir o navegador. Endereço:\n\n" + url, "SdFake",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 
     public class WelcomeForm : Form
@@ -91,24 +107,8 @@ namespace SdFake
             b.Accent = accent;
             b.Cursor = Cursors.Hand;
             b.SetBounds(24, top, 472, 64);
-            b.Click += delegate { Open(url); };
+            b.Click += delegate { Developer.Open(this, url); };
             Controls.Add(b);
-        }
-
-        /// <summary>Abre o endereco no navegador padrao.</summary>
-        void Open(string url)
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo(url);
-                psi.UseShellExecute = true;
-                Process.Start(psi);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(this, "Não foi possível abrir o navegador. Endereço:\n\n" + url, "SdFake",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
     }
 }

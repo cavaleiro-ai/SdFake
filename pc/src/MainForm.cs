@@ -142,16 +142,84 @@ namespace SdFake
         }
     }
 
+    /// <summary>Botao em forma de pilula mostrado no cabecalho, ao lado do titulo ("Seguir @cavaleiro.ai").</summary>
+    class FollowButton : Button
+    {
+        bool hover, down;
+
+        public FollowButton()
+        {
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+            Cursor = Cursors.Hand;
+            TabStop = false;
+        }
+
+        protected override void OnMouseEnter(EventArgs e) { hover = true; Invalidate(); base.OnMouseEnter(e); }
+        protected override void OnMouseLeave(EventArgs e) { hover = false; down = false; Invalidate(); base.OnMouseLeave(e); }
+        protected override void OnMouseDown(MouseEventArgs e) { down = true; Invalidate(); base.OnMouseDown(e); }
+        protected override void OnMouseUp(MouseEventArgs e) { down = false; Invalidate(); base.OnMouseUp(e); }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.Clear(Ui.Navy);
+            Color fill = down ? Color.FromArgb(29, 78, 216) : hover ? Color.FromArgb(59, 130, 246) : Ui.Blue;
+            using (GraphicsPath p = Ui.Rounded(new RectangleF(0.5f, 0.5f, Width - 1.5f, Height - 1.5f), (Height - 1.5f) / 2f))
+            using (SolidBrush b = new SolidBrush(fill))
+                g.FillPath(b, p);
+            using (Font f = new Font(Font, FontStyle.Bold))
+                TextRenderer.DrawText(g, Text, f, ClientRectangle, Color.White,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPrefix);
+        }
+    }
+
     class Header : Control
     {
         public Image Logo;
         public string Title = "SdFake";
         public string Subtitle = "Descubra se o cartão SD ou pendrive tem mesmo a capacidade anunciada";
+        Control side;
+        Size sideSize;
 
         public Header()
         {
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
+
+        // O cabecalho posiciona o proprio filho em pixels (PlaceSide), entao o Windows Forms nao deve escala-lo de novo.
+        protected override bool ScaleChildren { get { return false; } }
+
+        const float TitleSize = 19f;
+
+        int TitleLeft(float s)
+        {
+            return (int)(20 * s) + (Logo != null ? (int)(52 * s) + (int)(14 * s) : 0);
+        }
+
+        /// <summary>Coloca um controle logo depois do titulo (tamanho em pixels a 96 DPI).</summary>
+        public void SetSide(Control control, int width, int height)
+        {
+            side = control;
+            sideSize = new Size(width, height);
+            Controls.Add(control);
+            PlaceSide();
+        }
+
+        void PlaceSide()
+        {
+            if (side == null || Parent == null) return;
+            using (Graphics g = CreateGraphics())
+            using (Font tf = new Font(Font.FontFamily, TitleSize, FontStyle.Bold))
+            {
+                float s = g.DpiX / 96f;
+                int x = TitleLeft(s) + TextRenderer.MeasureText(g, Title, tf, Size.Empty, TextFormatFlags.NoPrefix).Width;
+                side.SetBounds(x + (int)(8 * s), (int)(17 * s), (int)(sideSize.Width * s), (int)(sideSize.Height * s));
+            }
+        }
+
+        protected override void OnResize(EventArgs e) { base.OnResize(e); PlaceSide(); }
+        protected override void OnFontChanged(EventArgs e) { base.OnFontChanged(e); PlaceSide(); }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -166,7 +234,7 @@ namespace SdFake
                 g.DrawImage(Logo, new Rectangle(x, (Height - size) / 2, size, size));
                 x += size + (int)(14 * s);
             }
-            using (Font tf = new Font(Font.FontFamily, 19f, FontStyle.Bold))
+            using (Font tf = new Font(Font.FontFamily, TitleSize, FontStyle.Bold))
                 TextRenderer.DrawText(g, Title, tf, new Point(x - (int)(3 * s), (int)(12 * s)), Color.White, TextFormatFlags.NoPrefix);
             using (Font sf = new Font(Font.FontFamily, 10.5f))
                 TextRenderer.DrawText(g, Subtitle, sf,
@@ -244,6 +312,17 @@ namespace SdFake
             }
             catch (Exception) { }
             Controls.Add(header);
+
+            // botao "Seguir" ao lado do titulo: abre um menu com Instagram, TikTok e site
+            FollowButton follow = new FollowButton();
+            follow.Text = "Seguir " + Developer.Handle;
+            follow.AccessibleName = follow.Text;
+            ContextMenuStrip followMenu = new ContextMenuStrip();
+            followMenu.Items.Add("Instagram  ·  " + Developer.Handle, null, delegate { Developer.Open(this, Developer.InstagramUrl); });
+            followMenu.Items.Add("TikTok  ·  " + Developer.Handle, null, delegate { Developer.Open(this, Developer.TikTokUrl); });
+            followMenu.Items.Add("Site  ·  " + Developer.SiteLabel, null, delegate { Developer.Open(this, Developer.SiteUrl); });
+            follow.Click += delegate { followMenu.Show(follow, new Point(0, follow.Height + 2)); };
+            header.SetSide(follow, 164, 26);
 
             MakeLabel("1.  Escolha o dispositivo", 20, 98, 400, 22, true, Ui.Ink);
             cbDrive = new ComboBox();
